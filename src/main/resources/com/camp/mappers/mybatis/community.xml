@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Community">
+ <select id="c_count" parameterType="community" resultType="int">
+  select count(c_no) from community
+ </select>
+ 
+ <select id="c_list" resultType="community">
+  select * from
+		(select rowNum rNum,c_no,c_title,c_hit,c_ref,c_date
+		from (select * from community
+		<where>
+			<if test="find_field == ''">
+				<!-- 검색조건이 없어서 총레코드 개수 -->
+			</if>
+			<if test="find_field == 'c_title'">
+				<!-- 검색 조건이 제목인 경우 -->
+				c_title like #{find_name} <!-- like는 오라클 검색 연산자 -->
+			</if>
+			<if test="find_field == 'c_cont'">
+				c_cont like #{find_name}
+			</if>
+		</where>
+		order by c_ref desc))
+		where rNum &gt;= #{startrow} and rNum &lt;= #{endrow}
+		<!-- &gt;은 ~보다 크다(>), &lt;은 ~보다 작다(<) -->
+ </select>
+ 
+ <insert id="c_insert">
+  insert into community (c_no,c_id,c_title,c_cont,c_file,c_hit,c_ref,c_step,c_level,c_date) values(c_no_seq.nextval,#{c_id},#{c_title},#{c_cont},#{c_file},0,c_no_seq.nextval,0,0,sysdate)
+ </insert>
+ 
+ <select id="c_co" resultType="community">
+  select * from community where c_no=#{c_no}
+ </select>
+ 
+ <update id="c_edit">
+  update community set c_title=#{c_title},c_cont=#{c_cont},c_file=#{c_file} where c_no=#{c_no}
+ </update>
+ <update id="c_hit"> 
+  update community set c_hit=c_hit+1 where c_no=#{c_no}
+ </update>
+ 
+ <delete id="c_del">
+  delete from community where c_no=#{c_no}
+ </delete>
+ 
+ <select id="m_list" resultType="community">
+ select * from community where id=#{id}
+ </select>
+ 
+</mapper>

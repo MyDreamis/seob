@@ -1,0 +1,118 @@
+@charset "UTF-8";
+
+.login_wrap{
+	
+	margin-top:100px;
+	text-align:center;
+	position:relative;
+	
+}
+.login{
+	margin-left:auto;
+	margin-right:auto;
+}
+.login_title{
+	
+}
+.login input {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #e5e5e5;
+    padding: 9px 12px;
+    outline: none;
+    box-sizing: border-box;
+}
+.login_menu > input {
+	margin:15px 0px 0px 0px;
+    height:auto;
+    font-size: 14px;
+    
+    padding-top:6px;
+    padding-bottom:6px;
+}
+.join_header{
+	
+	text-align:center;
+
+}
+.j_title{
+	margin-top:72xpx;
+	margin-right:141px;
+	text-align:center;
+	margin:0px;
+}
+nav {
+	margin-top:6px;
+	background-color: #007bff;
+	border: 4px solid #007bff;
+	border-radius: 7px;
+	display: inline-flex;
+	overflow: hidden;
+}
+
+nav input {
+	display: none;
+}
+
+nav label {
+	cursor:pointer;
+	color: #fff;
+	padding: 0.2em 0.7em;
+	position: relative;
+	z-index: 0;
+	transition: color 0.4s ease-out;
+}
+
+.male {
+	margin-bottom:0px;
+	padding-top:6px;
+	padding-bottom:6px;
+	z-index: 1;
+}
+.female{
+	margin-bottom:0px;
+	padding-top:6px;
+	padding-bottom:6px;
+}
+.female::after {
+	background-color:#fff;
+	border-radius: 7px;
+	color: transparent;
+	content: '여자';
+	display: inline-block;
+	padding: 0.4em 0.7em;
+	position: absolute;
+	z-index: -1;
+	top: 0;
+	left: 0;
+	transition: left 0.4s ease-out;
+}
+
+nav input:checked+label {
+	color: #007bff;
+	
+}
+
+nav #male:checked ~ .female::after {
+	left: -100%;
+}
+
+.filebox label{
+	display:inline-block;
+	cursor:pointer;
+	background-color: #007bff;
+	border:7px solid #007bff;
+	border-radius:7px;
+	text-align:center;
+	color:#fff;
+}
+.filebox input[type="file"]{
+	display:none;
+}
+
+.id{
+	border:none;
+}
+.id:focus{
+	outline:none;
+}
