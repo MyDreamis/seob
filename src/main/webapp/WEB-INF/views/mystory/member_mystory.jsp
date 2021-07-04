@@ -21,21 +21,24 @@
 			 <p>내가 작성한 게시글</p>
 			
 			 <c:if test="${!empty list}">
+			 	<c:if test = "${id == c.id} ">
 						<c:forEach var="c" items="${list}">
 						<tr>
 							<th scope="row" style="text-align: center;">${c.c_no}</th>
 							<td><a href="community_cont?c_no=${c.c_no}&page=${page}&state=cont" style="color: #000000;"><c:out value="${c.c_title}"/></a></td>
-							<td style="text-align: center;">${c.c_hit}</td>
 							<td style="text-align: center;">${fn:substring(c.c_date,0,10)}</td>
 						</tr>
 						</c:forEach>
 						</c:if>
 					
-						<c:if test="${empty list}">
+						<c:if test="${empty list || !empty list} ">
+						 <c:if test="${id != c.id}">
 						  <tr>
 						   <th colspan="4">작성한 게시글이 없습니다.</th>
 						  </tr>
-					</c:if>
+						  </c:if>
+				</c:if>
+			</c:if>
 			
 			</div>
 

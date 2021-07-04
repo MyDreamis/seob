@@ -3,6 +3,7 @@ package com.camp.controller;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -25,7 +26,7 @@ public class MyStoryController {
 	private MyStoryService myStoryService;
 	
 	@GetMapping("member_mystory")
-	public ModelAndView member_mystory(CommunityVO c,HttpServletResponse response,HttpSession session) throws Exception{
+	public ModelAndView member_mystory(CommunityVO m,HttpServletResponse response,HttpServletRequest request,HttpSession session) throws Exception{
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		
@@ -36,12 +37,36 @@ public class MyStoryController {
 			out.println("location='member_login';");
 			out.println("</script>");
 		}else {
-			List<CommunityVO> list=this.communityService.getCommunityList(c);
+			int page = 1;
+			int limit = 7;
 			
-			ModelAndView mlist=new ModelAndView("./mystory/member_mystory");
-			mlist.addObject("list",list);
+			if(request.getParameter("page") != null) {
+				page = Integer.parseInt(request.getParameter("page"));
+			}
+			int listcount = this.communityService.getListCount(m);
 			
-			return mlist;
+			m.setStartrow((page - 1) * 7 + 1);
+			m.setEndrow(m.getStartrow() + limit - 1);
+			
+			List<CommunityVO> list=this.communityService.getCommunityList(m);
+			
+			int maxpage = (int)((double)listcount/limit + 0.95);
+			
+			int startpage = (((int)((double)page/10+0.9))-1)*10+1;
+			
+			int endpage = maxpage;
+			if(endpage > startpage + 10-1) endpage = startpage + 10 -1;
+			
+			ModelAndView listC=new ModelAndView("./mystory/member_mystory");
+			listC.addObject("page",page);
+			listC.addObject("list",list);
+			listC.addObject("startpage",startpage);
+			listC.addObject("endpage",endpage);
+			listC.addObject("maxpage",maxpage);
+			listC.addObject("listcount",listcount);
+			
+			
+			 return listC;
 		}
 		return null;
 	}
